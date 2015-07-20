@@ -13,21 +13,29 @@ var CssTree = function(source, srcPath) {
   this.specialIds = null;
   this.attrSelectors = null;
 
-  var initializeCssTree = function(css) {
+  less.render(sourceHandler(), {
+    filename: path.resolve(srcPath)
+  }).then(initializeCssTree.bind(this), parseError);
+
+  function sourceHandler() {
+    source = source.replace(/@import.*?;/ig, '') // remove @import
+    source = source.replace(/\.[a-zA-Z].*?\(.*?\);/ig, ''); // remove mixin()
+    source = source.replace(/\.[A-Z].*?;/ig, ''); // remove MIXIN;
+    source = source.replace(/.+:.*?@.*?;/ig, ''); // remove variables
+    return source;
+  }
+
+  function initializeCssTree(css) {
     var ast = gonzales.srcToCSSP(css.css);
     this.initialize(ast);
-  };
+  }
 
-  var parseError = function(error) {
+  function parseError(error) {
     if (error) {
       console.log(error);
       process.exit();
     }
-  };
-
-  less.render(source, {
-    filename: path.resolve(srcPath)
-  }).then(initializeCssTree.bind(this), parseError);
+  }
 };
 
 module.exports = CssTree;
