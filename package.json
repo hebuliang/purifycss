@@ -7,7 +7,8 @@
     "clean-css": "^3.2.10",
     "gonzales": "^1.0.7",
     "underscore": "^1.8.3",
-    "yargs": "^3.10.0"
+    "yargs": "^3.10.0",
+    "less": "^2.5.1"
   },
   "devDependencies": {
     "chai": "^3.0.0",

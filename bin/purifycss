@@ -10,12 +10,12 @@ var files = argv._;
 if (files.length === 0) return printUsage();
 
 var css = files.filter(function(file){
-  return path.extname(file) === '.css';
+  return path.extname(file) === '.css' || path.extname(file) === '.less';
 });
 if (css.length === 0) return printUsage("css");
 
 var content = files.filter(function(file){
-  return path.extname(file) !== '.css';
+  return path.extname(file) !== '.css' && path.extname(file) !== '.less';
 });
 if (content.length === 0) return printUsage("content");
 
