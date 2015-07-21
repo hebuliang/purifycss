@@ -27,11 +27,7 @@ var options = {
   output: argv.out
 };
 
-if (options.output) {
-  purify(content, css, options);
-} else {
-  console.log(purify(content, css, options));
-}
+purify(content, css, options);
 
 
 function printUsage(errorOn) {

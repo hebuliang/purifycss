@@ -10,29 +10,25 @@ var Extraction = function(content){
 module.exports = Extraction;
 
 Extraction.prototype.filter = function(words){
-  var that = this;
-
   return _.filter(words, function(word){
     var splitWord = word.toLowerCase().split('-');
 
     if(splitWord.length === 1){
-      return that.contentWords[word];
+      return this.contentWords[word];
     } else {
-      return that.contentWords[word] ||
+      return this.contentWords[word] ||
              _.every(splitWord, function(part){
-               return that.contentWords[part] || that.contentWords[part + '-'] ||
-                      that.contentWords['-' + part + '-'] || that.contentWords['-' + part];
-             });
+               return this.contentWords[part] || this.contentWords[part + '-'] ||
+                      this.contentWords['-' + part + '-'] || this.contentWords['-' + part];
+             }.bind(this));
     }
-  });
+  }.bind(this));
 };
 
 Extraction.prototype.filterBySearch = function(words){
-  var that = this;
-
   return _.filter(words, function(word){
-    return that.content.indexOf(word.replace(/\\/g, '')) > -1;
-  });
+    return this.content.indexOf(word.replace(/\\/g, '')) > -1;
+  }.bind(this));
 };
 
 var getAllUsedWords = function(content){
