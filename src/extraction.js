@@ -47,6 +47,5 @@ var getAllUsedWords = function(content){
   }
 
   used[word] = true;
-
   return used;
 };

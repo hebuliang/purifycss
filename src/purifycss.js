@@ -85,8 +85,27 @@ var purify = function(searchThrough, css, options, callback) {
 
 module.exports = purify;
 
+var allFiles = [];
+var path = '';
+
+var getFiles = function(files) {
+  files.forEach(function(fileName) {
+    stat = fs.statSync(fileName);
+    if (stat.isDirectory()) {
+      rs = /\/$/.exec(fileName);
+      (rs && rs.length > 0) ? path = fileName : path = fileName + '/'
+      getFiles(fs.readdirSync(fileName).map(function(file){
+        return path + file;
+      }));
+    } else {
+      allFiles.push(fileName);
+    }
+  });
+}
+
 var concatFiles = function(files) {
-  return files.reduce(function(total, file) {
+  getFiles(files);
+  return allFiles.reduce(function(total, file) {
     return total + fs.readFileSync(file, 'utf8') + ' ';
   }, '');
 };
