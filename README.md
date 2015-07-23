@@ -1,81 +1,19 @@
-# PurifyCSS
+# Infomation
 
-* Detects which CSS selectors your app is using and creates a file without the unused CSS.
+This project forked from `purifycss` for supportting LESS file.
 
-Able to also detect **dynamically-loaded CSS selectors** in your JavaScript.
+# Run
 
-PurifyCSS has been designed from the beginning with **single-page apps** in mind.
+Clone this repo to your local machine for examle /Users/x/dev/, then go to your own project which you want to optimize, run:
 
-*This is in addition to working with multi-page apps. PurifyCSS is voodoo magic.*
-
-# Potential reduction
-* [Bootstrap](https://github.com/twbs/bootstrap) file: ~140k characters.
-* Average Bootstrap usage: ~40% (at most)
-* Minified Bootstrap: ~117k characters.
-* Purified + Minified Bootstrap: **~27k characters**
-
-# Install
 ```
-npm install purify-css
+cd your-project/
+
+node /Users/x/dev/purifycss/bin/purifycss <css> <content> --option
+
 ```
 
-#Able to detect
-* Anytime your class name is intact in your code.
 
-##### Example for the class ```button-active```
-``` html
-  <!-- html -->
-  <!-- class directly on element -->
-  <div class="button-active">click</div>
-```
-
-``` javascript
-  // javascript
-  // this example is jquery, but anytime your class name 
-  // is together in your javascript, it will work
-  $(button).addClass('button-active');
-```
-
-* Dynamically created classes
-
-##### Example for the class ```button-active```
-``` javascript
-  // can detect even if class is split
-  var half = 'button-';
-  $(button).addClass(half + 'active');
-  
-  // can detect even if class is joined
-  var dynamicClass = ['button', 'active'].join('-');
-  $(button).addClass(dynamicClass);
-```
-
-* **All** JavaScript frameworks
-
-##### Example for the class ```angular-button```
-``` javascript
-  <!-- angular template -->
-  <div ng-class="'angular' + '-button'"></div>
-```
-
-##### Example for the class ```commentBox```
-```javascript
-  // react component
-  var CommentBox = React.createClass({
-    render: function() {
-      return (
-        <div className="commentBox">
-          Hello, world! I am a CommentBox.
-        </div>
-      );
-    }
-  });
-  React.render(
-    <CommentBox />,
-    document.getElementById('content')
-  );
-```
-
-### PurifyCSS detects all JS frameworks. It is voodoo magic.
 
 # API
 ```javascript
@@ -111,45 +49,5 @@ purify(content, css, options, callback);
 
 * **```info:```** Logs info on how much CSS was removed if ```true```. Default: ```false```.
 
-* **```rejected:```** Logs the CSS rules that were removed if ```true```. Default: ```false```.
+* **```rejected:```** Logs the CSS rules that were removed if ```true```. Default: ```false```.å
 
-##```callback (optional)```
-##### Type: ```Function```
-
-##### Example
-``` javascript
-purify(content, css, options, function(output){
-  console.log(output, ' is the result of purify');
-});
-```
-
-##### Example without options
-``` javascript
-purify(content, css, function(output){
-  console.log('callback without options');
-});
-```
-
-## Command Line Tool
-
-```
-$ npm install -g purify-css
-```
-
-```
-$ purifycss
-usage: purifycss <css> <content> [option ...]
-
-options:
- --min                Minify CSS
- --out [filepath]     Filepath to write purified CSS to
- --info               Logs info on how much CSS was removed
- --rejected           Logs the CSS rules that were removed
-
- -h, --help           Prints help (this message) and exits
-```
-
-# At build time
-[Grunt](https://github.com/purifycss/grunt-purify-css)
-
-[Gulp](https://github.com/purifycss/gulp-purifycss)
