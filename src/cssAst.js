@@ -18,6 +18,7 @@ var CssTree = function(source, srcPath) {
   }).then(initializeCssTree.bind(this), parseError);
 
   function sourceHandler() {
+    source = source.replace(/background.*?;/ig, '') // remove background property
     source = source.replace(/@import.*?;/ig, '') // remove @import
     source = source.replace(/\.[a-zA-Z].*?\(.*?\);/ig, ''); // remove mixin()
     source = source.replace(/\.[A-Z].*?;/ig, ''); // remove MIXIN;
